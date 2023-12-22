@@ -7,6 +7,10 @@ apt-get install -y \
  curl vim wget htop unzip gnupg2 netcat-traditional \
  bash-completion git openssh-server
 
+## Run pre-install scripts
+sh /mnt/setup-ca.sh
+
+
 echo "Install and configure the necessary dependencies"
 apt-get install -y curl openssh-server ca-certificates perl
 

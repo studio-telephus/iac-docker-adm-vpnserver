@@ -1,6 +1,7 @@
-module "container_vpnserver" {
-  source    = "github.com/studio-telephus/tel-iac-modules-lxd.git//instance?ref=develop"
-  name      = "container-vpnserver"
+module "container_adm_vpnserver" {
+  source    = "github.com/studio-telephus/terraform-lxd-instance.git?ref=1.0.1"
+  name      = "container-adm-vpnserver"
+  image     = "images:debian/bookworm"
   profiles  = ["limits", "fs-dir", "nw-adm"]
   autostart = true
   nic = {
@@ -15,9 +16,9 @@ module "container_vpnserver" {
     "${path.cwd}/filesystem-shared-ca-certificates",
     "${path.cwd}/filesystem",
   ]
-  exec = {
-    enabled     = true
-    entrypoint  = "/mnt/install.sh"
-    environment = var.container_environment
+  exec_enabled = true
+  exec         = "/mnt/install.sh"
+  environment = {
+    RANDOM_STRING = "db3cdb39-b7af-4136-989d-8a592c126605"
   }
 }
