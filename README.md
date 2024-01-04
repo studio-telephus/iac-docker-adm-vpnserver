@@ -1,45 +1,8 @@
 # OpenVPN
 
-This guide explains the process of setting up an OpenVPN container on an unprivileged Debian container with LXC.
+This guide explains the process of setting up an OpenVPN container on a Debian container created with LXC.
 
-## LXC server
-
-Init container from base image
-
-    lxc init images:debian/bullseye container-vpnserver
-
-Network configuration
-
-    lxc config device override container-vpnserver eth0
-    lxc config device set container-vpnserver eth0 ipv4.address 10.0.10.110
-
-Start & enter the container
-
-    lxc start container-vpnserver
-    lxc exec container-vpnserver -- /bin/bash
-
-## Inside container-vpnserver
-
-Pre-flight
-
-    apt update && apt install -y vim curl wget htop openssh-server unzip gnupg2 netcat
-
-Add ssh key
-
-    mkdir -p $HOME/.ssh
-    echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDz+bA5VtpymU3cwqd1yrbsLNAzEdP5c+IVgb/OHlEzhLj7+ZOlWgWEFkoTTRJO3R1nU19yeMSKyAqG6xU+PWt8zlipgGfINuD168oytTM8UOmX16VZaAoUHFwAB+C7Xd814Os2FB7iXeolQVNRZADWUOF7/XOQVjEpbGVM5InoCvPTWPY9cFgRxJ2qwPZ08f0P6NupymK83LJYj9ELYlMfErxBF2WVObysw9c82oXq1VDLq+/clctVq+EhPkIhdRD1BIqNybQQnfvYnC1jfjHBSGIAfXtvJsjZ8TsHqFyXqOFYkj36/ZZ5GPBpIOsN1JA6NfF080g0Cz3iJohmjZh3 kristoa@telephus" > $HOME/.ssh/authorized_keys
-
-### Openvpn
-
-Download and run debian10-vpn.sh script
-
-    wget https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh -O openvpn-install.sh
-
-Setup permissions
-
-    chmod +x openvpn-install.sh
-
-Run the script to install OpenVPN server
+After completing the automated TF, run the script to install OpenVPN server
 
      ./openvpn-install.sh
 
@@ -100,8 +63,9 @@ Advanced
 
 ## Links
 
-https://serverfault.com/questions/187915/openvpn-port-share-with-apache-ssl
-https://www.cyberciti.biz/faq/debian-10-set-up-openvpn-server-in-5-minutes/
+- https://serverfault.com/questions/187915/openvpn-port-share-with-apache-ssl
+- https://www.cyberciti.biz/faq/debian-10-set-up-openvpn-server-in-5-minutes/
+- [OpenVPN vs Wireguard](https://www.google.com/search?q=wireguard+vs+openvpn&oq=wireguard+vs+&gs_lcrp=EgZjaHJvbWUqDAgAEAAYQxiABBiKBTIMCAAQABhDGIAEGIoFMgYIARBFGDkyBwgCEAAYgAQyBwgDEAAYgAQyBwgEEAAYgAQyCAgFEAAYFhgeMggIBhAAGBYYHjIICAcQABgWGB4yCAgIEAAYFhgeMgoICRAAGAoYFhgeqAIAsAIA&sourceid=chrome&ie=UTF-8#ip=1)
 
 ## Deprecated
 
