@@ -6,5 +6,5 @@ cat <<EOF > /etc/supervisor/conf.d/supervisord.conf
 nodaemon=true
 
 [program:openvpn]
-command=openvpn --config /etc/openvpn/openvpn.conf
+command=openvpn --config /etc/openvpn/server.conf
 EOF

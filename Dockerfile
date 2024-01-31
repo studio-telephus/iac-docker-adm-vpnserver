@@ -1,9 +1,11 @@
-FROM debian:bookworm-slim
+FROM debian:bookworm
 
 COPY ./filesystem /.
 COPY ./filesystem-shared-ca-certificates /.
 
 RUN find /mnt -print
+
+RUN export DEBIAN_FRONTEND=noninteractive
 
 RUN set -x
 RUN bash /mnt/pre-install.sh
