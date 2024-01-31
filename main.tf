@@ -1,24 +1,31 @@
-module "container_adm_vpnserver" {
-  source    = "github.com/studio-telephus/terraform-lxd-instance.git?ref=1.0.3"
-  name      = "container-adm-vpnserver"
-  image     = "images:debian/bookworm"
-  profiles  = ["limits", "fs-dir", "nw-adm"]
-  autostart = true
-  nic = {
-    name = "eth0"
-    properties = {
-      nictype        = "bridged"
-      parent         = "adm-network"
-      "ipv4.address" = "10.0.10.110"
+locals {
+  docker_image_name = "tel-adm-vpnserver"
+  container_name    = "container-adm-vpnserver"
+}
+
+resource "docker_image" "vpnserver" {
+  name         = local.docker_image_name
+  keep_locally = false
+  build {
+    context = path.module
+    build_args = {
+      RANDOM_STRING = "a3408005-12b5-487c-b15c-81b012507e02"
     }
   }
-  mount_dirs = [
-    "${path.cwd}/filesystem-shared-ca-certificates",
-    "${path.cwd}/filesystem",
+}
+
+module "container_adm_vpnserver" {
+  source = "github.com/studio-telephus/terraform-docker-container.git?ref=1.0.1"
+  name   = local.container_name
+  image  = docker_image.vpnserver.image_id
+  networks_advanced = [
+    {
+      name         = "adm-docker"
+      ipv4_address = "10.10.0.110"
+    }
   ]
-  exec_enabled = true
-  exec         = "/mnt/install.sh"
   environment = {
     RANDOM_STRING = "db3cdb39-b7af-4136-989d-8a592c126605"
   }
+  command = ["supervisord"]
 }
