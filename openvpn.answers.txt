@@ -43,7 +43,7 @@ What DNS resolvers do you want to use with the VPN?
    12) NextDNS (Anycast: worldwide)
    13) Custom
 DNS [1-12]: 13
-Primary: 10.0.10.101
+Primary: 10.10.0.101
 Secondary: 8.8.8.8
 
 Do you want to use compression? It is not recommended since the VORACLE attack make use of it.

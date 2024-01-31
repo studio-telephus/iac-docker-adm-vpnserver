@@ -11,6 +11,6 @@ RUN bash /mnt/setup-ca.sh
 RUN bash /mnt/install.sh
 RUN bash /mnt/supervisor.sh
 
-EXPOSE 1194 1194/udp
+EXPOSE 11150 11150/udp
 
 CMD ["/usr/bin/supervisord"]
