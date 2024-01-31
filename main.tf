@@ -18,6 +18,7 @@ module "container_adm_vpnserver" {
   source = "github.com/studio-telephus/terraform-docker-container.git?ref=1.0.1"
   name   = local.container_name
   image  = docker_image.vpnserver.image_id
+  privileged = true
   networks_advanced = [
     {
       name         = "adm-docker"
