@@ -66,6 +66,7 @@ Advanced
 - https://serverfault.com/questions/187915/openvpn-port-share-with-apache-ssl
 - https://www.cyberciti.biz/faq/debian-10-set-up-openvpn-server-in-5-minutes/
 - [OpenVPN vs Wireguard](https://www.google.com/search?q=wireguard+vs+openvpn&oq=wireguard+vs+&gs_lcrp=EgZjaHJvbWUqDAgAEAAYQxiABBiKBTIMCAAQABhDGIAEGIoFMgYIARBFGDkyBwgCEAAYgAQyBwgDEAAYgAQyBwgEEAAYgAQyCAgFEAAYFhgeMggIBhAAGBYYHjIICAcQABgWGB4yCAgIEAAYFhgeMgoICRAAGAoYFhgeqAIAsAIA&sourceid=chrome&ie=UTF-8#ip=1)
+- https://github.com/eBayClassifiedsGroup/PanteraS/blob/master/optional/openvpn/Dockerfile
 
 ## Deprecated
 
