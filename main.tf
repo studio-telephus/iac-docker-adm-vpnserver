@@ -20,15 +20,7 @@ resource "docker_container" "openvpn" {
   restart    = "unless-stopped"
   hostname   = local.container_name
 
-  capabilities {
-    add = ["NET_ADMIN"]
-  }
-
-  # Allow sysctl modifications inside the container
-  sysctls = {
-    "net.ipv4.conf.all.send_redirects" = "0"
-    "net.ipv4.ip_forward"              = "1"
-  }
+  privileged = true
 
   devices {
     host_path = "/dev/net/tun"
