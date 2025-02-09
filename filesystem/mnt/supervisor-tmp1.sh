@@ -4,6 +4,7 @@ echo "Configure supervisor"
 cat <<EOF > /etc/supervisor/conf.d/supervisord.conf
 [supervisord]
 nodaemon=true
+user=root
 
 [unix_http_server]
 file=/tmp/supervisor.sock
