@@ -45,21 +45,19 @@ Advanced
   --- Key file: acmevpn-tls-crypt.pem
   -- TLS min version: 1.2
 
-    sudo cp ~/.openvpn-custom/fname-sname-tel.ovpn /etc/openvpn/client/fname-sname-tel.ovpn
-
-    sudo nmcli connection import type openvpn file /etc/openvpn/client/fname-sname-tel.ovpn
+    nmcli connection import type openvpn file fname-sname-tel.ovpn
 
     tcpdump -ni eth0 udp and port 11150
 
-    nc -zv -u 10.0.10.110 1150
+    nc -zv -u 10.10.0.110 11150
     nc -zv -u 193.40.103.103 11150
 
-    echo -n "hello" >/dev/udp/10.0.10.110/1150
+    echo -n "hello" >/dev/udp/10.10.0.110/11150
     echo -n "hello" >/dev/udp/193.40.103.103/11150
 
 ###
 
-    iptables -t nat -A PREROUTING -i eth0 -p udp --dport 11150 -j DNAT --to-destination 10.0.10.110:11150
+    iptables -t nat -A PREROUTING -i eth0 -p udp --dport 11150 -j DNAT --to-destination 10.10.0.110:11150
 
 ## Links
 
@@ -71,4 +69,4 @@ Advanced
 ## Deprecated
 
     sudo openvpn --client --config /etc/openvpn/client/kristo-aun-tel.ovpn
-    iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 22110 -j DNAT --to-destination 10.0.10.110:22
+    iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 22110 -j DNAT --to-destination 10.10.0.110:22

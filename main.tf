@@ -1,9 +1,9 @@
 locals {
-  docker_image_name = "tel-adm-vpnserver"
-  container_name    = "container-adm-vpnserver"
+  docker_image_name = "tel-adm-openvpn"
+  container_name    = "container-adm-openvpn"
 }
 
-resource "docker_image" "vpnserver" {
+resource "docker_image" "openvpn" {
   name         = local.docker_image_name
   keep_locally = false
   build {
@@ -14,19 +14,39 @@ resource "docker_image" "vpnserver" {
   }
 }
 
-module "container_adm_vpnserver" {
-  source     = "github.com/studio-telephus/terraform-docker-container.git?ref=1.0.3"
-  name       = local.container_name
-  image      = docker_image.vpnserver.image_id
+resource "docker_container" "openvpn" {
+  name  = local.container_name
+  image = docker_image.openvpn.image_id
+  restart    = "unless-stopped"
+  hostname   = local.container_name
   privileged = true
-  networks_advanced = [
-    {
-      name         = "adm-docker"
-      ipv4_address = "10.10.0.110"
-    }
-  ]
-  environment = {
-    RANDOM_STRING = "db3cdb39-b7af-4136-989d-8a592c126605"
+  shm_size   = 1024
+
+  networks_advanced {
+    name         = "adm-docker"
+    ipv4_address = "10.10.0.110"
   }
+
+  log_driver = "json-file"
+  log_opts = {
+    "max-size" = "100m"
+    "max-file" = "1"
+  }
+
+  ports {
+    internal = 11150
+    external = 11150
+  }
+
+  volumes {
+    volume_name    = docker_volume.openvpn_config.name
+    container_path = "/etc/openvpn"
+    read_only      = false
+  }
+
   command = ["supervisord"]
+}
+
+resource "docker_volume" "openvpn_config" {
+  name = "volume-adm-openvpn-config"
 }
