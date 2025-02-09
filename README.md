@@ -57,7 +57,32 @@ Advanced
 
 ###
 
+Allow Packet Forwarding in Docker (by default, Docker restricts forwarding)
+
+    echo "net.ipv4.conf.all.forwarding = 1" | tee -a /etc/sysctl.conf
+    sysctl -p
+
+Then
+
     iptables -t nat -A PREROUTING -i eth0 -p udp --dport 11150 -j DNAT --to-destination 10.10.0.110:11150
+
+Manually Adjust Docker’s iptables Rules
+
+    iptables -I DOCKER-USER -p udp --dport 11150 -j ACCEPT
+    
+Make it persistent    
+    
+    iptables-save > /etc/iptables/rules.v4
+
+Your current MASQUERADE rules are only applying to Docker networks. Explicitly allow VPN clients to be NATed.
+
+    iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+
+Ensure packet forwarding is enabled
+
+    sysctl -w net.ipv4.ip_forward=1
+    echo "net.ipv4.ip_forward = 1" | tee -a /etc/sysctl.conf
+    sysctl -p
 
 ## Links
 

@@ -19,8 +19,16 @@ resource "docker_container" "openvpn" {
   image = docker_image.openvpn.image_id
   restart    = "unless-stopped"
   hostname   = local.container_name
-  privileged = true
-  shm_size   = 1024
+
+  capabilities {
+    add = ["NET_ADMIN"]
+  }
+
+  ports {
+    internal = 11150
+    external = 11150
+    protocol = "udp"
+  }
 
   networks_advanced {
     name         = "adm-docker"
@@ -31,11 +39,6 @@ resource "docker_container" "openvpn" {
   log_opts = {
     "max-size" = "100m"
     "max-file" = "1"
-  }
-
-  ports {
-    internal = 11150
-    external = 11150
   }
 
   volumes {
