@@ -22,10 +22,6 @@ resource "docker_container" "openvpn" {
 
   privileged = true
 
-  devices {
-    host_path = "/dev/net/tun"
-  }
-
   ports {
     internal = 11150
     external = 11150
